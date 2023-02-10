@@ -111,25 +111,42 @@ int main(int argc, char **argv)
 		fputs("*/ \n", fp1);
 	}	
 
-		fputs("	{", fp1);
-		/* find 'char' */
-		while(1)
+	fputs("	{", fp1);
+	/* find 'char' */
+	while(1)
+	{
+		if(fgets(buf, 12, fp0) != NULL && (buf[0] == 'c' && buf[1] == 'h' && buf[2] == 'a' && buf[3] == 'r'))
 		{
-			if(fgets(buf, 12, fp0) != NULL && (buf[0] == 'c' && buf[1] == 'h' && buf[2] == 'a' && buf[3] == 'r'))
-			{
-	num[0]=buf[5];
-				num[1]=buf[6];
-				num[2]=buf[7];
-				break;
-			}
+			num[0]=buf[5];
+			num[1]=buf[6];
+			num[2]=buf[7];
+			break;
 		}
-		char i, fd, sd, ascii_num[4];
+	}
+	char i, fd, sd, ascii_num[4];
 
-		/* read the font structure, and write them into the c array */
+	/* read the font structure, and write them into the c array */
 
+	if (fgets(buf, 12, fp0) != NULL && (buf[0] == '*' || buf[0] == '.')) 
+	{
+				
+		i  = (buf[0] == '*') << 7;
+		i |= (buf[1] == '*') << 6;
+		i |= (buf[2] == '*') << 5;
+		i |= (buf[3] == '*') << 4;
+		i |= (buf[4] == '*') << 3;
+		i |= (buf[5] == '*') << 2;
+		i |= (buf[6] == '*') << 1;
+		i |= (buf[7] == '*');
+				
+		fprintf(fp1, "0x%x", i);
+	}
+
+	for(int c = 0; c < 15; ++c)
+	{
 		if (fgets(buf, 12, fp0) != NULL && (buf[0] == '*' || buf[0] == '.')) 
 		{
-				
+			fputs(", ",fp1);
 			i  = (buf[0] == '*') << 7;
 			i |= (buf[1] == '*') << 6;
 			i |= (buf[2] == '*') << 5;
@@ -141,24 +158,7 @@ int main(int argc, char **argv)
 				
 			fprintf(fp1, "0x%x", i);
 		}
-
-		for(int c = 0; c < 15; ++c)
-		{
-			if (fgets(buf, 12, fp0) != NULL && (buf[0] == '*' || buf[0] == '.')) 
-			{
-				fputs(", ",fp1);
-				i  = (buf[0] == '*') << 7;
-				i |= (buf[1] == '*') << 6;
-				i |= (buf[2] == '*') << 5;
-				i |= (buf[3] == '*') << 4;
-				i |= (buf[4] == '*') << 3;
-				i |= (buf[5] == '*') << 2;
-				i |= (buf[6] == '*') << 1;
-				i |= (buf[7] == '*');
-				
-				fprintf(fp1, "0x%x", i);
-			}
-		}
+	}
 
 	fputs(" } ", fp1);
 
