@@ -8,6 +8,8 @@ It can convert a txt file with '.' and '*' into a C array. It'll be very convien
 Just type this following command:
 makefont example.txt font.h
 
+NOTICE:The font structure in text MUST be continuous.
+
 ## Changelog
 Feb 5 2023 v1.0 first published
 
