@@ -1,5 +1,5 @@
 # makefont
-A simple tool to DIY your own font while developing OS
+A simple tool to DIY your own font for EOS
 
 ## What can it do?
 It can convert a txt file with '.' and '*' into a C array. It'll be very convienient because you don't need to calculate the hex number by yourself.
